@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class KiwiRailTest {
-	KiwiRail railway;
+	private KiwiRail railway;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -71,5 +71,23 @@ public class KiwiRailTest {
 			assert (distance < 30);
 		}
 		assert (routes.size() == 7);
+	}
+
+	@Test
+	public void testGetShortestPath() {
+		logger.info("----------- Starting testGetShortestPath() ---------");
+		List<String> route = railway.getShortestPath("A", "C");
+		int distance = railway.getDistanceOfRoute(route.toArray(new String[route.size()]));
+		logger.info("Route {} is of distance {}", route, distance);
+		assert (distance == 9);
+	}
+
+	@Test
+	public void testGetShortestPathSameNodes() {
+		logger.info("----------- Starting testGetShortestPathSameNodes() ---------");
+		List<String> route = railway.getShortestPath("B", "B");
+		int distance = railway.getDistanceOfRoute(route.toArray(new String[route.size()]));
+		logger.info("Route {} is of distance {}", route, distance);
+		assert (distance == 9);
 	}
 }

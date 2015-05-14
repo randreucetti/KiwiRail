@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class StationTest {
-	Vertex station;
+	private Vertex station;
 
 	@Before
 	public void initialize() {

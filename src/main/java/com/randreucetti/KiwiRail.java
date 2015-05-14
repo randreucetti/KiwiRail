@@ -12,18 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class KiwiRail implements Graph {
-	private Map<String, Vertex> stations;
+	private final Map<String, Vertex> stations;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public KiwiRail() {
 		this.stations = new HashMap<String, Vertex>();
-	}
-
-	@Override
-	public void addNode(String key, Vertex station) {
-		logger.debug("Adding station: {}", station);
-		stations.put(key, station);
 	}
 
 	@Override
@@ -41,28 +35,34 @@ public class KiwiRail implements Graph {
 		stations.get(source).addNeighbour(destination, new Edge(stations.get(destination), distance));
 	}
 
+	private void addNode(String key, Vertex station) {
+		logger.debug("Adding station: {}", station);
+		stations.put(key, station);
+	}
+
 	@Override
 	public int getDistanceOfRoute(String... path) {
 		int totalDistance = 0;
 		for (int i = 0; i < path.length - 1; i++) {
-			Vertex st1 = stations.get(path[i]);
-			if (st1 != null) {
-				int distToNeigbhour = st1.getDistanceToNeighbour(path[i + 1]);
-				if (distToNeigbhour != -1) {
-					totalDistance += distToNeigbhour;
-				} else {
-					logger.warn("No path {} could be found, returning {}", path, -1);
-					return -1;
-				}
+			Vertex station = stations.get(path[i]);
+			int distToNeigbhour = station.getDistanceToNeighbour(path[i + 1]);
+			if (distToNeigbhour != -1) {
+				totalDistance += distToNeigbhour;
 			} else {
-				logger.warn("Station \"{}\" does not exist.", path[i]);
+				logger.warn("No path {} could be found, returning {}", path, -1);
 				return -1;
 			}
+
 		}
 		logger.info("Distance for path {} is {}", path, totalDistance);
 		return totalDistance;
 	}
 
+	/**
+	 * Based upon a recursive Breadth-first search. See See <a
+	 * href="http://en.wikipedia.org/wiki/Breadth-first_search"
+	 * >http://en.wikipedia.org/wiki/Breadth-first_search</a>
+	 */
 	@Override
 	public List<List<String>> getAllPathsLessThanDistance(String source, String destination, int distance) {
 		List<List<String>> paths = new ArrayList<List<String>>();
@@ -99,9 +99,24 @@ public class KiwiRail implements Graph {
 		path.removeLastOccurrence(current);
 	}
 
+	/**
+	 * Based upon a recursive Breadth-first search. See See <a
+	 * href="http://en.wikipedia.org/wiki/Breadth-first_search"
+	 * >http://en.wikipedia.org/wiki/Breadth-first_search</a>
+	 */
 	@Override
 	public List<List<String>> getAllPathsWithMaxStops(String source, String destination, int maxStops) {
 		List<List<String>> paths = new ArrayList<List<String>>();
+		Vertex srcVertex = stations.get(source);
+		if (srcVertex == null) {
+			logger.error("Source node {} does not exit", source);
+			return paths;
+		}
+		Vertex dstVertex = stations.get(destination);
+		if (dstVertex == null) {
+			logger.error("Destination node {} does not exit", destination);
+			return paths;
+		}
 		getAllPathsLessThanStops(source, destination, destination, paths, new LinkedList<String>(), true, maxStops, 0);
 		logger.info("getAllPathsWithMaxStops({}, {}, {}) returning paths {}", source, destination, maxStops, paths);
 		return paths;
@@ -133,9 +148,24 @@ public class KiwiRail implements Graph {
 		path.removeLastOccurrence(current);
 	}
 
+	/**
+	 * Based upon a recursive Breadth-first search. See See <a
+	 * href="http://en.wikipedia.org/wiki/Breadth-first_search"
+	 * >http://en.wikipedia.org/wiki/Breadth-first_search</a>
+	 */
 	@Override
 	public List<List<String>> getAllPathsWithNumStops(String source, String destination, int numStops) {
 		List<List<String>> paths = new ArrayList<List<String>>();
+		Vertex srcVertex = stations.get(source);
+		if (srcVertex == null) {
+			logger.error("Source node {} does not exit", source);
+			return paths;
+		}
+		Vertex dstVertex = stations.get(destination);
+		if (dstVertex == null) {
+			logger.error("Destination node {} does not exit", destination);
+			return paths;
+		}
 		getAllPathsWithNumStops(source, destination, destination, paths, new LinkedList<String>(), true, numStops, 0);
 		logger.info("getAllPathsWithNumStops({}, {}, {}) returning paths {}", source, destination, numStops, paths);
 		return paths;
@@ -167,17 +197,35 @@ public class KiwiRail implements Graph {
 		path.removeLastOccurrence(current);
 	}
 
+	/**
+	 * Uses a modified version of Dijkstra's algorithm
+	 * 
+	 * See <a
+	 * href="http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">http://en
+	 * .wikipedia.org/wiki/Dijkstra%27s_algorithm</a>
+	 */
 	@Override
 	public List<String> getShortestPath(String source, String destination) {
-		clearPaths();
+		List<String> returnPath = new ArrayList<String>();
 		Vertex srcVertex = stations.get(source);
-		srcVertex.setMinDistance(0);
+		if (srcVertex == null) {
+			logger.error("Source node {} does not exit", source);
+			return returnPath;
+		}
+		Vertex dstVertex = stations.get(destination);
+		if (dstVertex == null) {
+			logger.error("Destination node {} does not exit", destination);
+			return returnPath;
+		}
+		srcVertex.setMinDistance(Integer.MAX_VALUE);
 		PriorityQueue<Vertex> vertexQueue = new PriorityQueue<Vertex>();
 		vertexQueue.add(srcVertex);
 
 		while (!vertexQueue.isEmpty()) {
 			Vertex u = vertexQueue.poll();
-
+			if (u.equals(destination)) {
+				continue;
+			}
 			// Visit each edge exiting u
 			for (Edge e : u.getNeighbours().values()) {
 				Vertex v = e.getTarget();
@@ -191,20 +239,22 @@ public class KiwiRail implements Graph {
 				}
 			}
 		}
-		List<Vertex> path = getShortestPathTo(stations.get(destination));
-		List<String> returnPath = new ArrayList<String>();
-		for (Vertex v : path) {
-			returnPath.add(v.getName());
-		}
-		return returnPath;
-	}
 
-	private static List<Vertex> getShortestPathTo(Vertex target) {
-		List<Vertex> path = new ArrayList<Vertex>();
-		for (Vertex vertex = target; vertex != null; vertex = vertex.getPrevious())
-			path.add(vertex);
-		Collections.reverse(path);
-		return path;
+		int counter = 0;
+		for (Vertex vertex = dstVertex; vertex != null; vertex = vertex.getPrevious()) {
+			if (counter == 0 && vertex.getPrevious() == null) {
+				break;
+			}
+			returnPath.add(vertex.getName());
+			if (vertex.equals(dstVertex) && counter != 0) {
+				break;
+			}
+			counter++;
+		}
+		Collections.reverse(returnPath);
+		clearPaths();
+		logger.info("Returning path {}", returnPath);
+		return returnPath;
 	}
 
 	private void clearPaths() {
