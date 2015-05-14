@@ -2,9 +2,9 @@ package com.randreucetti;
 
 public class Edge {
 	private final Vertex target;
-	private final Integer weight;
+	private final int weight;
 
-	public Edge(Vertex target, Integer weight) {
+	public Edge(Vertex target, int weight) {
 		this.target = target;
 		this.weight = weight;
 	}
@@ -13,7 +13,12 @@ public class Edge {
 		return target;
 	}
 
-	public Integer getWeight() {
+	public int getWeight() {
 		return weight;
+	}
+
+	@Override
+	public String toString() {
+		return "Edge [target=" + target + ", weight=" + weight + "]";
 	}
 }
