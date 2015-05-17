@@ -11,7 +11,7 @@ Essentially KiwiRail holds a Map which maps a stations name to a vertex or node.
 More information on the design of the algorithms used to retrieve information may be found in the next section.
 
 -- Implementation & Functionality --
-The application is written entirely in Java using Maven for its building and dependencies.
+The application is written entirely in Java using Maven for its building and dependencies. Folder structure is as you would expect with any maven project. 
 
 KiwiRail currently provides the following functionality
 
@@ -33,3 +33,6 @@ KiwiRail currently provides the following functionality
 - getShortestPath(String source, String destination) : 
   Gets the shortest path between source and destination, returns this as a list of stops or an empty list if none    exists
   Uses a modified version of Dijkstra's algorithm as we are only concerned with one destination
+
+-- Running --
+The application can be run by simply typing 'mvn test' at the base directory. The KiwiRailTest is specific to the problems in the description. log4j is set to info currently, you can reduce this to debug for some more detailed information if you require.
