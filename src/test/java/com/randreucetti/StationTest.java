@@ -27,4 +27,13 @@ public class StationTest {
 		station.addNeighbour("n1", edge);
 		assert (station.getDistanceToNeighbour("n1") == 5);
 	}
+
+	@Test
+	public void testGetDistanceToNeighbourFail() {
+		Edge edge = EasyMock.createMock(Edge.class);
+		EasyMock.expect(edge.getWeight()).andReturn(5);
+		EasyMock.replay(edge);
+		station.addNeighbour("n1", edge);
+		assert (station.getDistanceToNeighbour("n2") == -1);
+	}
 }

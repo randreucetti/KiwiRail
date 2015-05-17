@@ -45,6 +45,10 @@ public class KiwiRail implements Graph {
 		int totalDistance = 0;
 		for (int i = 0; i < path.length - 1; i++) {
 			Vertex station = stations.get(path[i]);
+			if (station == null) {
+				logger.warn("Station {} does not exist, returning -1", path[i]);
+				return -1;
+			}
 			int distToNeigbhour = station.getDistanceToNeighbour(path[i + 1]);
 			if (distToNeigbhour != -1) {
 				totalDistance += distToNeigbhour;
@@ -262,22 +266,5 @@ public class KiwiRail implements Graph {
 			v.setMinDistance(Integer.MAX_VALUE);
 			v.setPrevious(null);
 		}
-	}
-
-	public static void main(String[] args) {
-		KiwiRail railway = new KiwiRail();
-		railway.addRoute("A", "B", 5);
-		railway.addRoute("B", "C", 4);
-		railway.addRoute("C", "D", 8);
-		railway.addRoute("D", "C", 8);
-		railway.addRoute("D", "E", 6);
-		railway.addRoute("A", "D", 5);
-		railway.addRoute("C", "E", 2);
-		railway.addRoute("E", "B", 3);
-		railway.addRoute("A", "E", 7);
-
-		System.out.println(railway.getShortestPath("A", "C"));
-		System.out.println(railway.getShortestPath("B", "B"));
-
 	}
 }
