@@ -10,8 +10,7 @@ import java.util.List;
  */
 public interface Graph {
 	/**
-	 * Adds a route from source to destination of a specified distance, If
-	 * source or destination vertex does not already exist, it will be created
+	 * Adds a route from source to destination of a specified distance, If source or destination vertex does not already exist, it will be created
 	 * 
 	 * @param source
 	 *            The routes starting point

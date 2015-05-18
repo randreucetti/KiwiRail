@@ -110,7 +110,7 @@ public class KiwiRail implements Graph {
 			getAllPathsWithMaxStops(edge, destination, paths, path, false, maxStops, curStops + 1);
 		}
 
-		path.removeLastOccurrence(current); // Tidy up our path list
+		path.removeLastOccurrence(current); // Maintain our path
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class KiwiRail implements Graph {
 			getAllPathsWithNumStops(edge, destination, paths, path, false, numStops, curStops + 1);
 		}
 
-		path.removeLastOccurrence(current); // Tidy up our path list
+		path.removeLastOccurrence(current); // Maintain our path
 	}
 
 	/**
@@ -191,7 +191,7 @@ public class KiwiRail implements Graph {
 					+ stations.get(current).getDistanceToNeighbour(edge));
 		}
 
-		path.removeLastOccurrence(current); // Tidy up our path list
+		path.removeLastOccurrence(current); // Maintain our path
 	}
 
 	/**

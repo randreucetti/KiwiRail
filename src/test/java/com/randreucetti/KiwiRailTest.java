@@ -38,9 +38,7 @@ public class KiwiRailTest {
 				String line = scanner.nextLine();
 				routes.addAll(Arrays.asList(line.split(",")));
 			}
-
 			scanner.close();
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

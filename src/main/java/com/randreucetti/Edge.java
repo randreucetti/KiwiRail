@@ -1,8 +1,7 @@
 package com.randreucetti;
 
 /**
- * Edge class used to storing neighbour {@link Vertex} and the distance required
- * to travel to it.
+ * Edge class used to storing neighbour {@link Vertex} and the distance required to travel to it.
  * 
  * @author ross
  *

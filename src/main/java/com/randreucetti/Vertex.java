@@ -7,13 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Abstract base class for the Vertex type, a vertex represents a node on a
- * graph and holds links to neigbouring vertices and their distances in the form
- * of {@link Edge}, The datastructure used for holding the neighbours is a
- * {@link HashMap}
+ * Abstract base class for the Vertex type, a vertex represents a node on a graph and holds links to neighbouring vertices and their distances in the
+ * form of {@link Edge}, The datastructure used for holding the neighbours is a {@link HashMap}
  * 
- * To support efficient calculation of shortest paths between vertices
- * additional fields {@link Vertex} previous and {@link int} minDistance are
+ * To support efficient calculation of shortest paths between vertices additional fields {@link Vertex} previous and {@link int} minDistance are
  * present
  * 
  * @author ross

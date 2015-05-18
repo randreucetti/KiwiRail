@@ -1,8 +1,7 @@
 package com.randreucetti;
 
 /**
- * This class currently doesn't serve any real purpose but may be useful when
- * adding other train station related functionality.
+ * This class currently doesn't serve any real purpose but may be useful when adding other train station related functionality.
  * 
  * @author ross
  *
