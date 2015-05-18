@@ -37,25 +37,9 @@ public interface Graph {
 	 *            The routes starting point
 	 * @param destination
 	 *            The routes ending point
-	 * @param distance
-	 *            All paths must be LESS than this distance
-	 * @return The List of paths which meet the criteria, or an empty list if
-	 *         none exists
-	 */
-
-	public List<List<String>> getAllPathsLessThanDistance(String source, String destination, int distance);
-
-	/**
-	 * 
-	 * @param source
-	 *            The routes starting point
-	 * @param destination
-	 *            The routes ending point
 	 * @param maxStops
-	 *            The maximum number of stop allowed for any paths between the
-	 *            vertexes
-	 * @return The List of paths which meet the criteria, or an empty list if
-	 *         none exists
+	 *            The maximum number of stop allowed for any paths between the vertexes
+	 * @return The List of paths which meet the criteria, or an empty list if none exists
 	 */
 
 	public List<List<String>> getAllPathsWithMaxStops(String source, String destination, int maxStops);
@@ -68,11 +52,23 @@ public interface Graph {
 	 * 
 	 * @param numStops
 	 *            The exact amount of stops paths must be
-	 * @return The List of paths which meet the criteria, or an empty list if
-	 *         none exists
+	 * @return The List of paths which meet the criteria, or an empty list if none exists
 	 */
 
 	public List<List<String>> getAllPathsWithNumStops(String source, String destination, int numStops);
+
+	/**
+	 * 
+	 * @param source
+	 *            The routes starting point
+	 * @param destination
+	 *            The routes ending point
+	 * @param distance
+	 *            All paths must be LESS than this distance
+	 * @return The List of paths which meet the criteria, or an empty list if none exists
+	 */
+
+	public List<List<String>> getAllPathsLessThanDistance(String source, String destination, int distance);
 
 	/**
 	 * 
