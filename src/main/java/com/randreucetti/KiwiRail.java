@@ -11,6 +11,12 @@ import java.util.PriorityQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The KiwiRail class which implements {@link Graph} details are given in the JavaDoc of each method about the implementation
+ * 
+ * @author ross
+ *
+ */
 public class KiwiRail implements Graph {
 	private final Map<String, Vertex> stations;
 

@@ -2,6 +2,12 @@ package com.randreucetti;
 
 import java.util.List;
 
+/**
+ * Graph interface which defines some useful methods to be implemented
+ * 
+ * @author ross
+ *
+ */
 public interface Graph {
 	/**
 	 * Adds a route from source to destination of a specified distance, If

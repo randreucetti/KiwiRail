@@ -1,6 +1,6 @@
 # KiwiRail
 ------------------------------
-The purpose of this application is to provide information about differient routes on a railroad network.
+The purpose of this application is to provide information about different routes on a railroad network.
 
 -- Design --
 
